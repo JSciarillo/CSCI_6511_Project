@@ -1,10 +1,10 @@
 # CSCI_6511_Project
 
-## Game Rules: 
+## Game Rules
 The objective of the game is to create rows, columns or diagonals of 5 connected checkers on the board. The game ends when someone or one of the team has reached 2 rows of 5 connected checkers. Thus, the problem is to create an optimal algorithm that is able to decide which card to play to win the game by analysing the board. The algorithm is also to be able to decide the next step in which to place a chip by playing the card in hand or to block the opponents. 
 
 
-## Objective of the agent: 
+## Objective of the agent 
 The intelligent agent is designed to play the board game using ExpectiMiniMax algorithm/ Monte Carlo Tree Search
 
 ## Nature of the game
@@ -13,7 +13,7 @@ The randomness of the game with a large state space have make it non-trivial as 
 ## State Space
 There is a board of 100 spaces, each space represents a card. Each space can either have a chip or not have a chip. The cards can either be in the card deck, in the player’s hand, or in the discard pile. The state space is every possible arrangement of chips being on the board.
 
-## Action space: 
+## Action space
 Generally, 2 to 12 players up to three teams
 Actions include: 
 - Play a card from hand 

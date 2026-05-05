@@ -1,6 +1,7 @@
 # Sequence Expectimax Agent
 ## Requirements
 Python 3.12
+
 Runs on a regular laptop or desktop.  
 
 Install Dependencies:

@@ -65,11 +65,15 @@ score -= run * run
 ```
 
 
- 
+
 - **Expecti node** :
 The opponent is a random player because the agent cannot see the opponent's hand. The expecti node determines the average over all legal moves the opponent can may. 
 
   Expected score = sum(score for every opponent move) / number of opponent moves
+
+### Evaluation Method
+Due to the excessive computation load on the UI, we implemented the headless_game() function in agent.py to have the agent play against the opponent. The number of games and depth of the search could be adjusted here. Each game is timed and the outcome of win, loss, or draw, is recorded.
+
 
 ## Original Game Link
 Original Sequence game implementation:

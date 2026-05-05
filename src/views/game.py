@@ -423,8 +423,8 @@ class Game_Renderer:
         Calls the agent to make its next move every 1000ms.
         """
         # Using the random action agent until we implement our own
-        from agent import RandomAgent
-        self.agent = RandomAgent()
+        from agent import ExpectimaxAgent
+        self.agent = ExpectimaxAgent(depth=2)
         self.timer = QTimer()
 
         # Sets the milliseconds for the QTimer
@@ -470,7 +470,8 @@ class Game_Renderer:
         
         #Agent chooses an action from the legal actions list
         #Will change this later for the implemented agent
-        action = self.agent.select_action(None, actions)
+        self.agent.set_state(self.game, self.challenger, self.bot)
+        action = self.agent.getAction(None, actions)
         card, x, y = action
 
         #Locates the card icon on the board and clicks it

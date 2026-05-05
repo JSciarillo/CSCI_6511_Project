@@ -54,12 +54,12 @@ The algorithm models two types of nodes:
 The agent chooses the move that would return the highest evaluation score. The length of the run is squared so that longer runs result in an exponentially higher score for the agent to base off of. 
 
 The evaluation function rewards the agent for its chips placed consecutively:
-```
+```python
 run = count_consec_chips(state.agent_chips, row, col, drow, dcol)
 score += run * run
 ```
 As well as penalizes the agent for the opponent's chips placed consecutively:
-```
+```python
 run = count_consec_chips(state.opp_chips, row, col, drow, dcol)
 score -= run * run
 ```

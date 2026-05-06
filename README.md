@@ -8,7 +8,7 @@ Runs on a regular laptop or desktop.
 ## How to run
 1. Clone the repository
 ```
-https://github.com/JSciarillo/CSCI_6511_Project.git
+git clone https://github.com/JSciarillo/CSCI_6511_Project.git
 ```
 
 2. Install Dependencies:

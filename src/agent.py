@@ -4,6 +4,7 @@ from gamestate import GameState, count_consec_chips, ONE_EYE_J, TWO_EYE_J
 from backend.logic import Game
 from backend.player import player
 import time
+import math
 
 class RandomAgent:
     """
@@ -157,10 +158,193 @@ class ExpectimaxAgent:
 
         #takes average over opponent
         return value / len(actions)
+
+#Followed the algorithm from the slides in class / Decision Making Under Uncertainty, MIT Press 2015.
+#https://faculty.cs.gwu.edu/goldfrank/4511/notes/10/10.html#/uct-search---algorithm
+#Followed this article and this YouTube video for guidelines:
+#https://www.geeksforgeeks.org/machine-learning/monte-carlo-tree-search-mcts-in-machine-learning/
+#https://www.youtube.com/watch?v=UXW2yZndl7U
+class MCTSNode:
+    """
+    Elements for one node in the MCTS search tree.
+    """
+    def __init__(self, gamestate, parent=None, action=None):
+        self.gamestate = gamestate #current gamestate
+        self.parent = parent #parent node of current node
+        self.action= action #action that led to this node
+        self.children = [] #child nodes
+        self.not_tried = list(gamestate.getLegalActions(0)) #not tried actions from this state
+
+        #tracks visit count N(s,a)
+        self.N = 0
+
+        #tracks action value Q(s,a)
+        self.Q = 0
+
+    def is_fully_expanded(self):
+        """all actions in A(s) have been tried"""
+        return len(self.not_tried) == 0
+
+    def uct_score(self, c=2):
+        """
+        UCT formula:
+        Q(s,a) + c * squareroot(log N(s) / N(s,a))
+
+        Used a constant of 2
+        """
+        #unvisited nodes get selected first
+        if self.N == 0:
+            return float('inf')
+        #updated score:
+        return self.Q + c * math.sqrt(math.log(self.parent.N) / self.N)
+
+    def best_child(self, c=2):
+        """
+        Select child with highest UCT score.
+        For the selection phase
+        """
+        best = self.children[0]
+        for child in self.children:
+            if child.uct_score(c) > best.uct_score(c):
+                best = child
+        return best
+
+    def best_action(self):
+        """
+        Return action with highest visit count for final decision
+        Since the most visited is the most reliable estimate
+        """
+        best = self.children[0]
+        for child in self.children:
+            if child.N > best.N:
+                best = child
+        return best
+
+
+class MCTSAgent:
+    """
+    Monte Carlo Tree Search agent for Sequence.
+    Using UCT Search and Rollout algorithm
+    from class slides/Kochenderfer, Decision Making Under Uncertainty, MIT Press 2015.
+    """
+    def __init__(self, num_simulations=100, c=1.41, gamma=1.0):
+        self.num_simulations = num_simulations #number of simulations
+        self.c = c # constant
+        self.gamma = gamma #discount factor
+        self.current_state = None
+
+    def set_state(self, game, my_player, opp_player):
+        """Capture the live game before each search."""
+        self.current_state = capture_state(game, my_player, opp_player)
+
+    def getAction(self, obs, valid_actions):
+        """
+        Gets the actions with the most visits
+        """
+        if not valid_actions:
+            return None
+        if len(valid_actions) == 1:
+            return valid_actions[0]
+
+        root = MCTSNode(self.current_state)
+
+        #run simulations 
+        for _ in range(self.num_simulations):
+            self.simulate(root, depth=3)
+
+        #action with most visits
+        return root.best_action().action
+
+    def simulate(self, node, depth):
+        """
+        Builds the tree with UCT selection.
+        Follows the phases: selection, expansion, rollout, back-propagation
+        """
+        #checks if depth limit is reached or game is in terminal state
+        if depth == 0 or node.gamestate.isWin() or node.gamestate.isLose():
+            return 0
+
+
+        #checks if this is first visit to node then expands all actions, then does rollout
+        if not node.is_fully_expanded() and not node.children:
+
+            #makes a child node for each legal action
+            for action in list(node.not_tried):
+                new_state = node.gamestate.generateSuccessor(0, action)
+                child = MCTSNode(new_state, parent=node, action=action)
+                node.children.append(child)
+            node.not_tried = []
+
+            #chooses random child and does rollout
+            child = random.choice(node.children)
+            q = self.rollout(child.gamestate, depth)
+
+            #backpropagates (update N and Q for child)
+            child.N += 1
+            child.Q += (q - child.Q) / child.N
+            node.N  += 1
+            return q
+        #chooses the best child
+        child = node.best_child(self.c)
+
+        #opponent makes a random move after agent
+        opp_actions = child.gamestate.getLegalActions(1)
+        if opp_actions:
+            opp_action = random.choice(opp_actions)
+            next_state = child.gamestate.generateSuccessor(1, opp_action)
+        else:
+            next_state = child.gamestate
+
+        #temporary node for opponent's resulting state
+        next_node = MCTSNode(next_state, parent=child)
+
+        r = 1 if child.gamestate.isWin() else 0
+        q = r + self.gamma * self.simulate(next_node, depth - 1)
+
+        #update number of times visited
+        child.N += 1
+        #update Q value
+        child.Q += (q - child.Q) / child.N
+        node.N  += 1
+
+        return q
+
+    def rollout(self, state, depth):
+        """
+        Random simulation from state to end of game.
+        Returns discounted cumulative reward.
+        """
+        #base case if the depth limit is 0 or game is in terminal state
+        if depth == 0 or state.isWin() or state.isLose():
+            if state.isWin():
+                return 1
+            else:
+                return 0
+
+        #agent picks random action
+        actions = state.getLegalActions(0)
+        if not actions:
+            return 0
+        action = random.choice(actions)
+
+        #generate successor and receives reward
+        next_state = state.generateSuccessor(0, action)
+        r = 1 if next_state.isWin() else 0
+
+        #opponent's random move after agent
+        opp_actions = next_state.getLegalActions(1)
+        if opp_actions:
+            opp_action = random.choice(opp_actions)
+            next_state = next_state.generateSuccessor(1, opp_action)
+        
+        #new discounted reward
+        new_r = r + self.gamma * self.rollout(next_state, depth - 1)
+        return new_r
+
     
 
 
-def headless_game(num_games=10, depth=2):
+def headless_game(num_games=10, agent_type="mcts", num_simulations=200):
     """
     Runs the num_games of games between the agent and a random opponent.
     This is the method for evaluation because the UI cannot handle the computation load.
@@ -179,7 +363,7 @@ def headless_game(num_games=10, depth=2):
         game.distribute(agent_player)
         game.distribute(opponent_player)
 
-        agent = ExpectimaxAgent(depth=depth)
+        agent = MCTSAgent(num_simulations=num_simulations)
         move_times = []
         num_turns = 0
         outcome = "draw"
@@ -294,4 +478,4 @@ def headless_game(num_games=10, depth=2):
 
 
 if __name__ == "__main__":
-    headless_game(num_games=10, depth=1)
+    headless_game(num_games=10, agent_type="mcts", num_simulations=200)

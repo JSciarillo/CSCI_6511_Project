@@ -18,7 +18,7 @@ cd src/
 ```
 3. To run the headless version of the Expectimax agent:
 
-Run Expectimax agent with specified number of games and depth:
+**Run Expectimax agent with specified number of games and depth:**
 ```
 python agent.py expectimax <num_games> <depth>
 ```
@@ -27,7 +27,7 @@ for example to run 10 games at depth 1
 python agent.py expectimax 10 1
 ```
 
-Optionally, to limit the number of opponent actions searched (useful for any depth besides 1):
+**Optionally, to limit the number of opponent actions searched (useful for any depth besides 1):**
 ```
 python agent.py expectimax <num_games> <depth> <action_limit>
 ```
@@ -36,10 +36,13 @@ for example to run 10 games at depth 2 with an action limit of 15:
 python agent.py expectimax 10 2 15
 ```
 ### Visual with the UI
-To watch the agent run on the board:
+**To watch the agent run on the board:**
 ```
 python main.py expectimax <depth>
 ```
+**Optionally, to limit the number of opponent actions searched (useful for any depth besides 1):**
+```
+python agent.py expectimax <depth> <action_limit>
 
 ## Sequence Game Objective
 The objective of the game is to create rows, columns or diagonals of 6 connected chips on the board. The game ends when someone has reached 1 row of 6 connected chips. Thus, the problem is to create an optimal algorithm that is able to decide which card to play to win the game by analyzing the board. The algorithm is decides the next step in which to place a chip by playing the card in hand or to block the opponents. 

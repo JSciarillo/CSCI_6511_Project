@@ -66,6 +66,7 @@ python main.py expectimax <depth> <action_limit>
 The ghost in this game moves randomly which are often modelled as a stochastic game where there are dynamic multi-agent interactions that combine competition with uncertainty. This brings its similarity to the board game, Sequence. Due to the uncertainty, we aren’t able to perfectly predict the future state space of the Pac-Man game. Implementation of agent like Expectimax or MonteCarlo Tree Search  allow the agent to make optimal decisions based on probabilistic outcomes rather than deterministic paths.
 
 **Poker** 
+
 Poker is another classic example of stochastic game. It includes random events of the random card deck. The game state is also partially observable. This creates a direct parallel to the board game Sequence as we aren’t able to see what’s in the opponent’s hand or what’s next in the deck and that you can only know your own card or the cards on the table. Thus, agent like Expectimax would work best for such games where the agent have limited knowledge of the current game state
 
 

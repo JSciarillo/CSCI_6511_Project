@@ -5,6 +5,7 @@ from backend.logic import Game
 from backend.player import player
 import time
 import math
+import sys
 
 class RandomAgent:
     """
@@ -344,13 +345,14 @@ class MCTSAgent:
     
 
 
-def headless_game(num_games=10, agent_type="mcts", num_simulations=200):
+def headless_game(num_games=10, agent_type="mcts", num_simulations=200, depth=1):
     """
     Runs the num_games of games between the agent and a random opponent.
     This is the method for evaluation because the UI cannot handle the computation load.
     """
 
     print(f"Headless Sequence Game")
+    print(f"Running " + agent_type + " agent")
     print(f"{num_games} game iterations\n")
 
     total_results = []
@@ -359,11 +361,16 @@ def headless_game(num_games=10, agent_type="mcts", num_simulations=200):
 
         game = Game()
         agent_player = player("agent")
-        opponent_player = player("opponenet")
+        opponent_player = player("opponent")
         game.distribute(agent_player)
         game.distribute(opponent_player)
 
-        agent = MCTSAgent(num_simulations=num_simulations)
+        #runs respective agent
+        if agent_type == "expectimax":
+            agent = ExpectimaxAgent(depth=depth)
+        elif agent_type == "mcts":
+            agent = MCTSAgent(num_simulations=num_simulations)
+
         move_times = []
         num_turns = 0
         outcome = "draw"
@@ -478,4 +485,15 @@ def headless_game(num_games=10, agent_type="mcts", num_simulations=200):
 
 
 if __name__ == "__main__":
-    headless_game(num_games=10, agent_type="mcts", num_simulations=200)
+    #takes in command line argument to load agent type
+    agent_type = sys.argv[1]
+    num_games = int(sys.argv[2])
+
+    #sets the expectimax depth and number of games on the arguments
+    if agent_type == "expectimax":
+        depth = int(sys.argv[3])
+        headless_game(num_games=num_games, agent_type=agent_type,depth=depth)
+    #sets the mcts numbers simulations games based on the arguments 
+    elif agent_type == "mcts":
+        num_simulations = int(sys.argv[3])
+        headless_game(num_games=num_games,agent_type=agent_type,num_simulations=num_simulations)

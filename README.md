@@ -17,15 +17,29 @@ Python 3.12
 
 Runs on a regular laptop or desktop. 
 
+<<<<<<< HEAD
 ## Setup
+=======
+
+## How to run
+>>>>>>> ea8ebab067742fe7ef20e668208da7db86911efe
 1. Clone the repository
 ```
 git clone https://github.com/JSciarillo/CSCI_6511_Project.git
 ```
+<<<<<<< HEAD
+=======
+
+>>>>>>> ea8ebab067742fe7ef20e668208da7db86911efe
 2. Install Dependencies:
 ```
 pip install -r requirements.txt
 ```
+<<<<<<< HEAD
+=======
+
+3. To run the headless version of the Expectimax agent:
+>>>>>>> ea8ebab067742fe7ef20e668208da7db86911efe
 ```
 cd src/
 ```

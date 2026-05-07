@@ -108,43 +108,71 @@ Due to the excessive computation load on the UI, we implemented the headless_gam
 ### Results
 **10 Games at Depth 2 with Action Limit of 10**
 Results of 10 games-
+
 Wins- 9 out of 10
+
 Losses- 1 out of 10
+
 Draws- 0 out of 10
+
 Total run time- 953.41 seconds
+
 Average game time- 95.34 seconds
+
 Average move time- 4443.6ms
+
 Depth- 2
+
 Action limit- 10
 
 **10 Games at Depth 1 with no Action Limit**
 Results of 10 games-
+
 Wins- 9 out of 10
+
 Losses- 1 out of 10
+
 Draws- 0 out of 10
+
 Total run time- 34.21 seconds
+
 Average game time- 3.42 seconds
+
 Average move time- 139.9ms
+
 Depth- 1
 
 **100 Games at Depth 1 with no Action Limit**
 Results of 100 games-
+
 Wins- 83 out of 100
+
 Losses- 17 out of 100
+
 Draws- 0 out of 100
+
 Total run time- 274.77 seconds
+
 Average game time- 2.75 seconds
+
 Average move time- 122.0ms
+
 Depth- 1
 
 
 **50 Games at Depth 1 with no Action Limit**
 Results of 50 games-
+
 Wins- 40 out of 50
+
 Losses- 10 out of 50
+
 Draws- 0 out of 50
+
 Total run time- 119.98 seconds
+
 Average game time- 2.40 seconds
+
 Average move time- 105.6ms
 
 ## Stretch Goal: Monte Carlo Tree Search Agent

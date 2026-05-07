@@ -22,6 +22,9 @@ Runs on a regular laptop or desktop.
 ```
 git clone https://github.com/JSciarillo/CSCI_6511_Project.git
 ```
+```
+cd CSCI_6511_Project
+```
 2. Install Dependencies:
 ```
 pip install -r requirements.txt

@@ -430,7 +430,7 @@ class Game_Renderer:
         if agent_type == "expectimax":
             depth = int(sys.argv[2]) if len(sys.argv) > 2 else 1
             action_limit = int(sys.argv[3]) if len(sys.argv) > 3 else None
-            self.agent = ExpectimaxAgent(depth=depth,action_limit=action_limit)
+            self.agent = ExpectimaxAgent(depth=depth,action=action_limit)
 
         elif agent_type == "mcts":
             num_simulations = int(sys.argv[2]) if len(sys.argv) > 2 else 200

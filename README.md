@@ -225,8 +225,8 @@ Original Sequence game implementation:
 
 
 #### New Files Added
-`src/agent.py`
-`src/gamestate.py`
+**`src/agent.py`**
+**`src/gamestate.py**
 
 ## Other Resources
 For MCTS:

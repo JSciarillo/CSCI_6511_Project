@@ -231,7 +231,16 @@ Original Sequence game implementation:
 ## Other Resources
 For MCTS:
 [https://www.geeksforgeeks.org/machine-learning/monte-carlo-tree-search-mcts-in-machine-learning/](https://www.geeksforgeeks.org/machine-learning/monte-carlo-tree-search-mcts-in-machine-learning/)
+
 Psuedocode from class / Mykal Kochenderfer. Decision Making Under Uncertainty, MIT Press 2015: 
 [https://faculty.cs.gwu.edu/goldfrank/4511/notes/10/10.html#/uct-search---algorithm](https://faculty.cs.gwu.edu/goldfrank/4511/notes/10/10.html#/uct-search---algorithm)
+
 Youtube Video: [https://www.youtube.com/watch?v=UXW2yZndl7U](https://www.youtube.com/watch?v=UXW2yZndl7U)
 [https://www.geeksforgeeks.org/artificial-intelligence/expectimax-search-algorithm-in-ai/](https://www.geeksforgeeks.org/artificial-intelligence/expectimax-search-algorithm-in-ai/)
+
+Expectimax Guidelines:
+[https://www.geeksforgeeks.org/artificial-intelligence/expectimax-search-algorithm-in-ai/](https://www.geeksforgeeks.org/artificial-intelligence/expectimax-search-algorithm-in-ai/)
+
+Sequence Game Rules:
+[https://images-na.ssl-images-amazon.com/images/I/81c4gCJTojL.pdf](https://images-na.ssl-images-amazon.com/images/I/81c4gCJTojL.pdf)
+

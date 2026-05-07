@@ -33,6 +33,8 @@ from PyQt6.QtWidgets import (
 )
 
 from functools import partial
+from agent import ExpectimaxAgent, MCTSAgent
+import sys
 
 
 _QRect = QRect
@@ -420,15 +422,23 @@ class Game_Renderer:
     def begin_game(self):
         """
         Starts the agent's game with QTimer.
-        Calls the agent to make its next move every 1000ms.
+        Calls the agent to make its next move every 10000ms.
         """
         # Using the random action agent until we implement our own
-        from agent import ExpectimaxAgent
-        self.agent = ExpectimaxAgent(depth=2)
-        self.timer = QTimer()
+        agent_type = sys.argv[1]
+
+        if agent_type == "expectimax":
+            depth = int(sys.argv[2]) if len(sys.argv) > 2 else 1
+            action_limit = int(sys.argv[3]) if len(sys.argv) > 3 else None
+            self.agent = ExpectimaxAgent(depth=depth,action_limit=action_limit)
+
+        elif agent_type == "mcts":
+            num_simulations = int(sys.argv[2]) if len(sys.argv) > 2 else 200
+            self.agent = MCTSAgent(num_simulations=num_simulations)
 
         # Sets the milliseconds for the QTimer
-        self.timer.setInterval(1000)
+        self.timer = QTimer()
+        self.timer.setInterval(10000)
 
         # Calls agent_move at the timer timeout
         self.timer.timeout.connect(self.agent_move)

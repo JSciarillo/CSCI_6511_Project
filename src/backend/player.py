@@ -31,7 +31,7 @@ class player:
 
         if opponentBox[x][y]:
             if self.hasRemove():
-                print("REM: ", self.getRemove())
+                #print("REM: ", self.getRemove())
                 self.playerCards.remove(self.getRemove())
                 return 2
 

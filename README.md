@@ -62,18 +62,15 @@ python main.py expectimax <depth> <action_limit>
 
 ## Related Solutions to Similar Problems
 **Pacman**
-
 The ghost in this game moves randomly which are often modelled as a stochastic game where there are dynamic multi-agent interactions that combine competition with uncertainty. This brings its similarity to the board game, Sequence. Due to the uncertainty, we aren’t able to perfectly predict the future state space of the Pac-Man game. Implementation of agent like Expectimax or MonteCarlo Tree Search  allow the agent to make optimal decisions based on probabilistic outcomes rather than deterministic paths.
-
 **Poker** 
-
 Poker is another classic example of stochastic game. It includes random events of the random card deck. The game state is also partially observable. This creates a direct parallel to the board game Sequence as we aren’t able to see what’s in the opponent’s hand or what’s next in the deck and that you can only know your own card or the cards on the table. Thus, agent like Expectimax would work best for such games where the agent have limited knowledge of the current game state
 
 
 ## State Space
 There is a board of 100 spaces, each space represents a card. Each space can either have a chip or not have a chip. The cards can either be in the card deck, in the player’s hand, or in the discard pile. The state space is every possible arrangement of chips being on the board.
 
-## Action space
+## Actions
 This implementation leverages a 2 player game. The agent vs a random opponent.
 
 Actions include: 
@@ -82,6 +79,13 @@ Actions include:
 - Removing an opponent’s chip (if player played a one-eyed jack)
 - Placing a chip anywhere on the board (if player played a two-eyed jack)
 - Draw a replacement card after each move
+
+## Transitions
+State transitions are handled by generateSuccessor(agentIndex, action) in gamestate.py
+
+## Observations
+Sequence is partially observable as the agent can only see its own hard of cards and the chip placements on the board.
+
 
 # Solution Method
 **Expectimax Algorithm**
@@ -110,6 +114,9 @@ The opponent is a random player because the agent cannot see the opponent's hand
 
 ### Evaluation Method
 Due to the excessive computation load on the UI, we implemented the headless_game() function in agent.py to have the agent play against the opponent. The number of games and depth of the search could be adjusted here. Each game is timed and the outcome of win, loss, or draw, is recorded.
+
+To measure success:
+We used the Random agent as a baseline and improved the win rate significantly using Expectimax for decision making. 
 
 ### Results
 **10 Games at Depth 2 with Action Limit of 10**
@@ -232,7 +239,7 @@ Original Sequence game implementation:
 
 #### New Files Added
 **`src/agent.py`**
-**`src/gamestate.py**
+**`src/gamestate.py`**
 
 ## Other Resources
 For MCTS:

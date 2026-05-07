@@ -70,7 +70,7 @@ Poker is another classic example of stochastic game. It includes random events o
 ## State Space
 There is a board of 100 spaces, each space represents a card. Each space can either have a chip or not have a chip. The cards can either be in the card deck, in the player’s hand, or in the discard pile. The state space is every possible arrangement of chips being on the board.
 
-## Action space
+## Actions
 This implementation leverages a 2 player game. The agent vs a random opponent.
 
 Actions include: 
@@ -79,6 +79,13 @@ Actions include:
 - Removing an opponent’s chip (if player played a one-eyed jack)
 - Placing a chip anywhere on the board (if player played a two-eyed jack)
 - Draw a replacement card after each move
+
+## Transitions
+State transitions are handled by generateSuccessor(agentIndex, action) in gamestate.py
+
+## Observations
+Sequence is partially observable as the agent can only see its own hard of cards and the chip placements on the board.
+
 
 # Solution Method
 **Expectimax Algorithm**
@@ -107,6 +114,9 @@ The opponent is a random player because the agent cannot see the opponent's hand
 
 ### Evaluation Method
 Due to the excessive computation load on the UI, we implemented the headless_game() function in agent.py to have the agent play against the opponent. The number of games and depth of the search could be adjusted here. Each game is timed and the outcome of win, loss, or draw, is recorded.
+
+To measure success:
+We used the Random agent as a baseline and improved the win rate significantly using Expectimax for decision making. 
 
 ### Results
 **10 Games at Depth 2 with Action Limit of 10**

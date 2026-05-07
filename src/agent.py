@@ -362,7 +362,7 @@ def headless_game(num_games=10, agent_type="expectimax", num_simulations=200, de
     """
 
     print(f"Headless Sequence Game")
-    print(f"Running " + agent_type + " agent")
+    print(f"Running {agent_type} agent")
     print(f"{num_games} game iterations\n")
 
     total_results = []
@@ -491,8 +491,6 @@ def headless_game(num_games=10, agent_type="expectimax", num_simulations=200, de
     print(f"Total run time- {total_time:.2f} seconds")
     print(f"Average game time- {avg_game_time:.2f} seconds")
     print(f"Average move time- {avg_move_time:.1f}ms")
-
-
 
     return total_results
 

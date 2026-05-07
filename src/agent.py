@@ -204,6 +204,9 @@ class MCTSNode:
         Select child with highest UCT score.
         For the selection phase
         """
+        if not self.children:
+            return None
+
         best = self.children[0]
         for child in self.children:
             if child.uct_score(c) > best.uct_score(c):
@@ -288,6 +291,9 @@ class MCTSAgent:
         #chooses the best child
         child = node.best_child(self.c)
 
+        if child is None:
+            return 0
+
         #opponent makes a random move after agent
         opp_actions = child.gamestate.getLegalActions(1)
         if opp_actions:
@@ -343,7 +349,6 @@ class MCTSAgent:
         return new_r
 
     
-
 
 def headless_game(num_games=10, agent_type="mcts", num_simulations=200, depth=1):
     """
@@ -431,6 +436,7 @@ def headless_game(num_games=10, agent_type="mcts", num_simulations=200, depth=1)
                 if works:
                     break
             num_turns += 1
+                  
 
             if game.winner:
                 outcome = "win" if agent_player.playerScore >= 1 else "loss"
@@ -480,6 +486,8 @@ def headless_game(num_games=10, agent_type="mcts", num_simulations=200, depth=1)
     print(f"Total run time- {total_time:.2f} seconds")
     print(f"Average game time- {avg_game_time:.2f} seconds")
     print(f"Average move time- {avg_move_time:.1f}ms")
+
+
 
     return total_results
 

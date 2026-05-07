@@ -492,6 +492,13 @@ def headless_game(num_games=10, agent_type="expectimax", num_simulations=200, de
     print(f"Average game time- {avg_game_time:.2f} seconds")
     print(f"Average move time- {avg_move_time:.1f}ms")
 
+    if agent_type == "expectimax":
+        print(f"Depth- {depth}")
+    if action_limit is not None:
+        print(f"Action limit- {action_limit}")
+    elif agent_type == "mcts":
+        print(f"Simulations- {num_simulations}")
+
     return total_results
 
 

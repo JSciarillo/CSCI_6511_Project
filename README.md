@@ -13,7 +13,7 @@ The large state space in combination with the randomness of card draws and uncer
 The motivation for this project is to implement an approximately optimal agent that decides between building upon its sequence or blocking the opponent. We chose Expectimax for this problem since the opponent moves could be modeled by their expected score, given that the agent has no information about the opponent's hand.  
 
 ## Requirements
-Python 3.12
+Python 3.12+
 
 Runs on a regular laptop or desktop. 
 

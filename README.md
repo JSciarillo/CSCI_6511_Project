@@ -43,6 +43,7 @@ python main.py expectimax <depth>
 **Optionally, to limit the number of opponent actions searched (useful for any depth besides 1):**
 ```
 python agent.py expectimax <depth> <action_limit>
+```
 
 ## Sequence Game Objective
 The objective of the game is to create rows, columns or diagonals of 6 connected chips on the board. The game ends when someone has reached 1 row of 6 connected chips. Thus, the problem is to create an optimal algorithm that is able to decide which card to play to win the game by analyzing the board. The algorithm is decides the next step in which to place a chip by playing the card in hand or to block the opponents. 

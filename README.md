@@ -4,16 +4,41 @@ Python 3.12
 
 Runs on a regular laptop or desktop.  
 
-Install Dependencies:
+## How to run
+1. Clone the repository
+```
+git clone https://github.com/JSciarillo/CSCI_6511_Project.git
+```
+2. Install Dependencies:
 ```
 pip install -r requirements.txt
 ```
-
-## How to run
-To run the headless version of the Expectimax agent:
 ```
 cd src/
-python agent.py
+```
+3. To run the headless version of the Expectimax agent:
+
+Run Expectimax agent with specified number of games and depth:
+```
+python agent.py expectimax <num_games> <depth>
+```
+for example to run 10 games at depth 1
+```
+python agent.py expectimax 10 1
+```
+
+Optionally, to limit the number of opponent actions searched (useful for any depth besides 1):
+```
+python agent.py expectimax <num_games> <depth> <action_limit>
+```
+for example to run 10 games at depth 2 with an action limit of 15:
+```
+python agent.py expectimax 10 2 15
+```
+### Visual with the UI
+To watch the agent run on the board:
+```
+python main.py expectimax <depth>
 ```
 
 ## Sequence Game Objective

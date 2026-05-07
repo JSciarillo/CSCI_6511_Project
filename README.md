@@ -217,7 +217,7 @@ Original Sequence game implementation:
 #### `src/backend/logic.py`
 #### `src/backend/data.py`
 #### `src/backend/sound.py`
-#### `src/backend/userdata.json
+#### `src/backend/userdata.json`
 #### `src/backend/sound.py`
 #### `src/views/settings.py`
 #### `src/views/statistics.py`

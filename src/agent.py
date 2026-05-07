@@ -36,12 +36,12 @@ def capture_state(game, my_player, opp_player):
 
     return GameState(
         agent_chips  = [row[:] for row in my_player.playerBox],
-        opp_chips    = [row[:] for row in opp_player.playerBox],
-        agent_hand   = list(my_player.playerCards),
-        deck         = remaining_deck,
-        agent_score  = my_player.playerScore,
-        opp_score    = opp_player.playerScore,
-        game_over    = game.winner,
+        opp_chips = [row[:] for row in opp_player.playerBox],
+        agent_hand = list(my_player.playerCards),
+        deck = remaining_deck,
+        agent_score = my_player.playerScore,
+        opp_score = opp_player.playerScore,
+        game_over = game.winner,
     )
 
 
@@ -65,6 +65,7 @@ def evaluationFunction(state):
                 if state.agent_chips[row][col]:
                     run = count_consec_chips(state.agent_chips, row, col, drow, dcol)
                     score += run * run
+
                 #penalize opponent runs
                 if state.opp_chips[row][col]:
                     run = count_consec_chips(state.opp_chips, row, col, drow, dcol)
@@ -78,8 +79,9 @@ class ExpectimaxAgent:
     Max nodes are for the agent's turn, agent picks highest value move
     Chance nodes are the opponent's turn, averages over all possible moves
     """
-    def __init__(self, depth=2):
+    def __init__(self, depth=2, action_limit=None):
         self.depth = depth
+        self.action_limit = action_limit
         self.current_state = None
 
     def set_state(self, game, my_player, opp_player):
@@ -94,7 +96,7 @@ class ExpectimaxAgent:
         if len(valid_actions) == 1:
             return valid_actions[0]
 
-        highestValue  = -float('inf')
+        highestValue = -float('inf')
         bestMove = valid_actions[0]
 
         for action in valid_actions:
@@ -103,7 +105,7 @@ class ExpectimaxAgent:
             #evaluate the move
             value = self.ExpectiValue(successor, 0, 1)
             if value > highestValue:
-                highestValue  = value
+                highestValue = value
                 bestMove = action
 
         return bestMove
@@ -115,14 +117,14 @@ class ExpectimaxAgent:
         if gameState.isWin() or gameState.isLose() or depth == self.depth:
             return evaluationFunction(gameState)
 
-        value   = -float('inf')
+        value = -float('inf')
         actions = gameState.getLegalActions(agentIndex)
 
         for action in actions:
             successor = gameState.generateSuccessor(agentIndex, action)
             
             #after agent move, goes to expecti node
-            newValue    = self.ExpectiValue(successor, depth, 1)
+            newValue = self.ExpectiValue(successor, depth, 1)
             if newValue > value:
                 value = newValue
 
@@ -135,11 +137,12 @@ class ExpectimaxAgent:
         if gameState.isWin() or gameState.isLose() or depth == self.depth:
             return evaluationFunction(gameState)
 
-        value   = 0
+        value = 0
         actions = gameState.getLegalActions(agentIndex)
 
         #sets a limit to the number of legal actions searched
-        #actions = actions[:15]
+        if self.action_limit is not None:
+            actions = actions[:self.action_limit]
 
         #agent is 0, opponent is 1
         numAgents = 2
@@ -204,6 +207,7 @@ class MCTSNode:
         Select child with highest UCT score.
         For the selection phase
         """
+        #no children
         if not self.children:
             return None
 
@@ -269,7 +273,7 @@ class MCTSAgent:
             return 0
 
 
-        #checks if this is first visit to node then expands all actions, then does rollout
+        #first visit to node
         if not node.is_fully_expanded() and not node.children:
 
             #makes a child node for each legal action
@@ -291,6 +295,7 @@ class MCTSAgent:
         #chooses the best child
         child = node.best_child(self.c)
 
+        #if there are no children
         if child is None:
             return 0
 
@@ -350,7 +355,7 @@ class MCTSAgent:
 
     
 
-def headless_game(num_games=10, agent_type="mcts", num_simulations=200, depth=1):
+def headless_game(num_games=10, agent_type="expectimax", num_simulations=200, depth=1, action_limit=None):
     """
     Runs the num_games of games between the agent and a random opponent.
     This is the method for evaluation because the UI cannot handle the computation load.
@@ -372,7 +377,7 @@ def headless_game(num_games=10, agent_type="mcts", num_simulations=200, depth=1)
 
         #runs respective agent
         if agent_type == "expectimax":
-            agent = ExpectimaxAgent(depth=depth)
+            agent = ExpectimaxAgent(depth=depth, action_limit=action_limit)
         elif agent_type == "mcts":
             agent = MCTSAgent(num_simulations=num_simulations)
 
@@ -500,7 +505,8 @@ if __name__ == "__main__":
     #sets the expectimax depth and number of games on the arguments
     if agent_type == "expectimax":
         depth = int(sys.argv[3])
-        headless_game(num_games=num_games, agent_type=agent_type,depth=depth)
+        action_limit = int(sys.argv[4]) if len(sys.argv) > 4 else None
+        headless_game(num_games=num_games, agent_type=agent_type,depth=depth,action_limit=action_limit)
     #sets the mcts numbers simulations games based on the arguments 
     elif agent_type == "mcts":
         num_simulations = int(sys.argv[3])

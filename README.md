@@ -211,6 +211,19 @@ Original Sequence game implementation:
 #### `src/views/game.py`
 #### `src/views/menu.py`
 #### `src/backend/player.py`
+### Unchanged Files (from original creators)
+#### `src/img`
+#### `src/assets`
+#### `src/backend/logic.py`
+#### `src/backend/data.py`
+#### `src/backend/sound.py`
+#### `src/backend/userdata.json
+#### `src/backend/sound.py`
+#### `src/views/settings.py`
+#### `src/views/statistics.py`
+#### `src/components`
+
+
 #### New Files Added
 `src/agent.py`
 `src/gamestate.py`
